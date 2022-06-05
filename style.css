@@ -1,0 +1,38 @@
+:root{
+    --mainColor: #f2efed;
+    --bgColor: #1c1b1d;
+    --accentColor: #deaf9d;
+    --highlightColor: #4e3e3e;
+    --errColor: #bf616a;
+
+    --mainFont: 'Inter', sans-serif;
+    --secondFont: 'Roboto Mono', monospace;
+}
+
+body{
+    background-color: var(--bgColor);
+    margin: 0px;
+    font-family: var(--mainFont);
+}
+
+.header{
+    font-size: 56px;
+    font-family: var(--mainFont);
+    font-weight: 500;
+    color: var(--mainColor);
+    text-align: center;
+}
+
+.line{
+    border: none;
+    border-top: var(--accentColor) 2px solid; 
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+}
+
+#initContainer{
+    height: 60vh;
+    width: 50vw;
+    margin: auto;
+    margin-top: 15vh;
+}
