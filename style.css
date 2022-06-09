@@ -4,9 +4,14 @@
     --accentColor: #deaf9d;
     --highlightColor: #4e3e3e;
     --errColor: #bf616a;
+    --altBgColor:#262223;
 
     --mainFont: 'Inter', sans-serif;
     --secondFont: 'Roboto Mono', monospace;
+}
+
+::selection{
+    background-color: var(--accentColor)
 }
 
 body{
@@ -25,14 +30,83 @@ body{
 
 .line{
     border: none;
-    border-top: var(--accentColor) 2px solid; 
+    border-top: var(--accentColor) 1px solid; 
     margin-top: 5vh;
     margin-bottom: 5vh;
+    width: 30vw;
+    margin-right:auto;
+    margin-left:auto;
 }
 
 #initContainer{
-    height: 60vh;
+    height: 90vh;
     width: 50vw;
     margin: auto;
     margin-top: 15vh;
+}
+
+#initFormContainer{
+    width: 100%;
+    height: 55vh;
+    display:flex;
+    flex-direction: column;
+}
+
+.initForm{
+    width: calc(30vw - 1rem);
+    margin: auto;
+    margin-top: 0.5vh;
+    height: 4vh;
+
+    border-radius: 0.5rem;
+    background-color: var(--altBgColor);
+    border: 2px solid rgba(0, 0, 0, 0);
+    padding: 0.5rem;
+    outline: 0px;
+    
+    caret-color: var(--accentColor);
+
+    font-family: "Roboto Mono", monospace;
+    font-size: 16px;
+    color: var(--mainColor);
+
+    transition: all 0.2s;
+}
+
+.initForm:focus{
+    border: 2px var(--accentColor) solid;
+}
+
+.initLabel{
+    width: 30vw;
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom: 0vh;
+    font-family: "Roboto Mono", monospace;
+    color: var(--accentColor);
+
+}
+
+#initBtn{
+    width: 30vw;
+    height: calc(5vh + 1rem);
+    border-radius: 0.5rem;
+    border: 2px var(--altBgColor) solid;
+    background-color: var(--altBgColor);
+    color: var(--mainColor);
+
+    margin: auto;
+    margin-top: 3vh;
+
+    font-size: 18px;
+    font-family: "Roboto Mono", monospace;
+    font-weight: 500;
+
+    transition: all 0.2s;
+}
+
+#initBtn:hover{
+    border: 2px var(--accentColor) solid;
+    background-color: var(--accentColor);
+    cursor: pointer;
 }
