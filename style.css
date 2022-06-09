@@ -141,6 +141,10 @@ body{
     font-family: "Roboto Mono", monospace;
 }
 
+#standbyContainer:hover{
+    cursor: pointer;
+}
+
 .hl-span{
     background-color: var(--highlightColor);
     color: var(--bgColor);
