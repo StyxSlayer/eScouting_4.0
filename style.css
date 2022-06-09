@@ -18,6 +18,7 @@ body{
     background-color: var(--bgColor);
     margin: 0px;
     font-family: var(--mainFont);
+    overflow-y: hidden;
 }
 
 .header{
@@ -36,6 +37,11 @@ body{
     width: 30vw;
     margin-right:auto;
     margin-left:auto;
+    opacity: 100%;
+}
+
+#initDivLine{
+    transform: none;
 }
 
 #initContainer{
@@ -48,7 +54,12 @@ body{
 #initFormContainer{
     width: 100%;
     height: 55vh;
-    display:flex;
+    opacity: 100%;
+    transition: 0.2s all;
+}
+
+.initFormContainer{
+    display: flex;
     flex-direction: column;
 }
 
@@ -109,4 +120,35 @@ body{
     border: 2px var(--accentColor) solid;
     background-color: var(--accentColor);
     cursor: pointer;
+}
+
+#standbyContainer{
+    display:none;
+    flex-direction: column;
+    /* border-radius: 100%;
+    border: var(--mainColor) 2px solid; */
+
+    width: 70vh;
+    height: 50vh;
+
+    margin: auto;
+
+    align-items: center;
+    justify-content: center;
+
+    color: var(--accentColor);
+    font-size: 30px;
+    font-family: "Roboto Mono", monospace;
+}
+
+.hl-span{
+    background-color: var(--highlightColor);
+    color: var(--bgColor);
+    padding: 2px;
+}
+
+#standbyLabel{
+    font-size: 14px;
+    color: var(--highlightColor);
+    margin-top: 20vh;
 }
