@@ -1,4 +1,5 @@
 let state = "init";
+let startAudio = new Audio("/sfx/start.wav")
 var img = new Image();
 img.src = '/img/field.png';
 var canvas = document.getElementById('fieldCanvas');
@@ -8,13 +9,15 @@ ctx.drawImage(img, 0, 0);
 document.getElementById("fieldCanvas").addEventListener("click", ()=>{
     canvasClicked()
 })
-    
-
-
 document.getElementById("initBtn").addEventListener("click", ()=>{
     transition(0);
-
 })
+window.addEventListener('keydown', function (keystroke) {
+    if(keystroke.key == " "){
+        transition(1)
+    }
+}
+)
 
 function getMousePos(canvas, evt) {
     var rect = canvas.getBoundingClientRect();
@@ -56,8 +59,8 @@ function transition(i){
 
     }
     if(i==1 && state == "standby"){
-        
-        
+        startAudio.play();
 
     }
 }
+
