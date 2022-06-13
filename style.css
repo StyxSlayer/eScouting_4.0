@@ -162,3 +162,30 @@ body{
 #fieldCanvas:hover{
     cursor: pointer;
 }
+
+#mainPage{
+    width: 100vw;
+    height: 100vh;
+    display:none;
+
+
+    grid-template-columns: repeat(4, 23.875vw);
+    grid-template-rows: auto auto auto auto 5vh;
+
+    gap: 1.5vw;
+
+}
+
+.mainPageBox{
+    border: solid var(--accentColor) 2px;
+    background-color: var(--altBgColor);
+    border-radius: 1rem;
+
+    display:flex;
+    font-family: "Roboto Mono", monospace;
+    font-size: 3em;
+    color: var(--mainColor);
+
+    justify-content: center;
+    align-items: center;
+}

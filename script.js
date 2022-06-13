@@ -26,7 +26,6 @@ function getMousePos(canvas, evt) {
       y: (evt.clientY - rect.top) / (rect.bottom - rect.top) * canvas.height
     };
 }
-
 function canvasClicked(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     canvas.width = img.width;
@@ -40,6 +39,20 @@ function canvasClicked(){
     ctx.fill();
     ctx.stroke();
     console.log("canvas clicked, x: " + Math.round(pos.x) + ", y: " + Math.round(pos.y));
+}
+function generateMainPage(stage){
+    if(stage == "auto"){
+        for(i=0; i<settings.auto.length; i++){
+            const box = document.createElement("div")
+            box.innerHTML = settings.auto[i].label;
+            box.classList.add("mainPageBox")
+            box.style.gridColumnStart = settings.auto[i].columnStart;
+            box.style.gridColumnEnd = settings.auto[i].columnEnd;
+            box.style.gridRowStart = settings.auto[i].rowStart;
+            box.style.gridRowEnd = settings.auto[i].rowEnd;
+            document.getElementById("mainPage").appendChild(box);
+        }
+    }
 }
 
 function transition(i){
@@ -60,7 +73,9 @@ function transition(i){
     }
     if(i==1 && state == "standby"){
         startAudio.play();
-
+        document.getElementById("initPage").style.display = "none";
+        document.getElementById("mainPage").style.display = "grid";
+        generateMainPage("auto")
     }
 }
 
