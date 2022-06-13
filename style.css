@@ -137,13 +137,11 @@ body{
     justify-content: center;
 
     color: var(--accentColor);
-    font-size: 30px;
+    font-size: 26px;
     font-family: "Roboto Mono", monospace;
 }
 
-#standbyContainer:hover{
-    cursor: pointer;
-}
+
 
 .hl-span{
     background-color: var(--highlightColor);
@@ -154,4 +152,13 @@ body{
 #standbyLabel{
     font-size: 14px;
     color: var(--highlightColor);
+}
+
+#fieldCanvas{
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+}
+
+#fieldCanvas:hover{
+    cursor: pointer;
 }
