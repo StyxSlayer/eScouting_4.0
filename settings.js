@@ -8,7 +8,7 @@ let settings = {
         "rowStart": 1,
         "rowEnd": 3,
         "writeLoc": 1,
-        "type": "int"
+        "writeType": "int"
       },
       {
         "label": "Low Goal",
@@ -17,8 +17,8 @@ let settings = {
         "columnEnd": 5,
         "rowStart": 1,
         "rowEnd": 3,
-        "writeLoc": 1,
-        "type": "int"
+        "writeLoc": 2,
+        "writeType": "int"
       }, 
       {
         "label": "Missed Goal",
@@ -27,8 +27,8 @@ let settings = {
         "columnEnd": 3,
         "rowStart": 3,
         "rowEnd": 5,
-        "writeLoc": 1,
-        "type": "int"
+        "writeLoc": 3,
+        "writeType": "int"
       }, 
       {
         "label": "Taxi",
@@ -37,9 +37,12 @@ let settings = {
         "columnEnd": 5,
         "rowStart": 3,
         "rowEnd": 5,
-        "writeLoc": 1,
-        "type": "bool"
+        "writeLoc": 0,
+        "writeType": "bool"
       }
     ]
     
   }
+
+  let dataValues = [false, 0, 0, 0, 0, 0, 0, false, 0, 0, 0, false, "", false, "", ""];
+  let dataLabels = ["Taxi", "Auto High", "Auto Low", "Auto Missed", "Tele High", "Tele Low", "Tele Missed", "Attempted Climb", "Climb Level", "Climb Time", "Defence Time", "Penalty", "Yeet", "Oof", "QATA", "Drivetrain Type"];
