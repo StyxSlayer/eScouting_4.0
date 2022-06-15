@@ -1,4 +1,7 @@
 let settings = {
+    "imported":{
+      "transitionMode": "auto"
+    },
     "auto": [
       {
         "label": "High Goal",
@@ -39,6 +42,63 @@ let settings = {
         "rowEnd": 5,
         "writeLoc": 0,
         "writeType": "bool"
+      }
+    ],
+
+
+
+
+
+    "tele":[
+      {
+        "label": "High Goal",
+        "trigger": "f", 
+        "columnStart": 1,
+        "columnEnd": 3,
+        "rowStart": 1,
+        "rowEnd": 3,
+        "writeLoc": 4,
+        "writeType": "int"
+      },
+      {
+        "label": "Low Goal",
+        "trigger": "d", 
+        "columnStart": 3,
+        "columnEnd": 5,
+        "rowStart": 1,
+        "rowEnd": 3,
+        "writeLoc": 5,
+        "writeType": "int"
+      }, 
+      {
+        "label": "Missed Goal",
+        "trigger": "j", 
+        "columnStart": 1,
+        "columnEnd": 3,
+        "rowStart": 3,
+        "rowEnd": 5,
+        "writeLoc": 6,
+        "writeType": "int"
+      }, 
+      {
+        "label": "Defense Timer",
+        "trigger": "k", 
+        "columnStart": 3,
+        "columnEnd": 5,
+        "rowStart": 3,
+        "rowEnd": 4,
+        "writeLoc": 10,
+        "writeType": "inc"
+      },
+      {
+        "label": "Climb Timer",
+        "trigger": "l", 
+        "columnStart": 3,
+        "columnEnd": 5,
+        "rowStart": 4,
+        "rowEnd": 5,
+        "writeLoc": 9,
+        "writeType": "inc"
       }
     ]
     

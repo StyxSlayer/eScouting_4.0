@@ -64,3 +64,23 @@
     }
     
 }
+
+/* flash animation | notify user of state change */
+
+.flashAnim{
+    animation: flashAnim;
+    animation-duration: 0.2s;
+    animation-direction: forwards;
+}
+
+@keyframes flashAnim {
+    
+    0%{
+        opacity: 100%;
+    }
+    100%{
+        opacity: 0%;
+    }
+
+
+}

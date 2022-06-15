@@ -1,4 +1,4 @@
-let state = "init", matchNum, scoutNum, teamNum;
+let state = "init", matchNum, scoutNum, teamNum, timer = 150, delay = true;
 let startAudio = new Audio("/sfx/start.wav")
 let clickAudio = new Audio("/sfx/click.wav")
 var img = new Image();
@@ -42,8 +42,8 @@ function canvasClicked(){
     console.log("canvas clicked, x: " + Math.round(pos.x) + ", y: " + Math.round(pos.y));
 }
 function generateMainPage(stage){
-    document.getElementById("display-match").innerHTML = "Match " + matchNum;
-    document.getElementById("display-team").innerHTML = "Team" + teamNum;
+    document.getElementById("display-match").innerHTML = "Match:  " + matchNum;
+    document.getElementById("display-team").innerHTML = "Team: " + teamNum;
     if(stage == "auto"){
         for(i=0; i<settings.auto.length; i++){
             const box = document.createElement("div")
@@ -77,6 +77,80 @@ function generateMainPage(stage){
             
         }
     }
+    if(stage == "tele"){
+        for(i=0; i<settings.tele.length; i++){
+            const box = document.createElement("div")
+            box.innerHTML = settings.tele[i].label;
+            box.classList.add("mainPageBox");
+            box.style.gridColumnStart = settings.tele[i].columnStart;
+            box.style.gridColumnEnd = settings.tele[i].columnEnd;
+            box.style.gridRowStart = settings.tele[i].rowStart;
+            box.style.gridRowEnd = settings.tele[i].rowEnd;
+            let wType = settings.tele[i].writeType;
+            let wLoc = settings.tele[i].writeLoc;
+            box.addEventListener("click", ()=>clickEvt(wType, wLoc))
+            document.getElementById("mainPage").appendChild(box);
+
+            const boxLabel = document.createElement("div");
+            boxLabel.classList.add("mainPageLabel");
+            boxLabel.style.gridColumn = (settings.tele[i].columnEnd-1) + "/" + (settings.tele[i].columnEnd-1);
+            boxLabel.style.gridRow = (settings.tele[i].rowEnd-1) + "/" + (settings.tele[i].rowEnd-1);
+            boxLabel.innerHTML = settings.tele[i].trigger.toUpperCase()
+            boxLabel.addEventListener("click", ()=>clickEvt(wType, wLoc))
+            document.getElementById("mainPage").appendChild(boxLabel);
+
+            const boxCount = document.createElement("div");
+            boxCount.classList.add("mainPageCounter");
+            boxCount.id = "label" + wLoc;
+            boxCount.innerHTML = dataValues[wLoc];
+            boxCount.style.gridColumn = settings.tele[i].columnStart + "/" + settings.tele[i].columnStart;
+            boxCount.style.gridRow = (settings.tele[i].rowEnd-1) + "/" + (settings.tele[i].rowEnd-1);
+            boxCount.addEventListener("click", ()=>clickEvt(wType, wLoc))
+            document.getElementById("mainPage").appendChild(boxCount);
+        }
+        console.log("tele generated");
+    }
+}
+function timerStart(){
+    timer = 150;
+    delay = true;
+    updateTimer();
+    let timerFunction = setInterval(updateTimer, 100)
+    console.log("started")
+}
+function updateTimer(){
+    console.log("updated")
+    document.getElementById("display-timer").innerHTML = timer;
+
+    if(settings.imported.transitionMode == "manual"){
+        timer--;
+    }
+    if(settings.imported.transitionMode == "auto"){
+        console.log(timer)
+        if (timer == 135 && delay) {
+            timer = 136; //136??? check delay
+            delay = !delay
+          }
+          if (timer == 135 && !delay) {
+            state = "tele"
+            transition(2)
+          }
+          if(timer == 30){
+            state = "end"
+            transition(3)
+          }
+          if (timer == 0) {
+            console.log("Game over");
+            timer -= 1;
+            state = "after";
+            transition(4)
+          }
+          if (timer > 0) {
+            timer --;
+          }
+    }
+
+    
 }
 
 function clickEvt(type, loc, rev = null){
@@ -118,10 +192,23 @@ function transition(i){
 
     }
     if(i==1 && state == "standby"){
+        timerStart()
         startAudio.play();
         document.getElementById("initPage").style.display = "none";
         document.getElementById("mainPage").style.display = "grid";
         generateMainPage("auto")
+        state = "auto";
+    }
+    if(i==2){
+        // document.getElementById("mainPage").textContent = '';
+        let removeElem = (settings.auto.length)*3        
+        for(let i=0; i<removeElem; i++){
+            
+            mainPageElem = document.getElementById("mainPage");
+            mainPageElem.removeChild(mainPageElem.lastElementChild)
+        }
+        generateMainPage("tele")
+        state = "tele"
     }
 }
 
