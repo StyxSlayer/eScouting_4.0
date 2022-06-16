@@ -13,10 +13,50 @@ document.getElementById("fieldCanvas").addEventListener("click", ()=>{
 document.getElementById("initBtn").addEventListener("click", ()=>{
     transition(0);
 })
+let keys = [];
+for(let i = 0; i < settings.auto.length; i++){
+    keys.push(settings.auto[i].trigger);
+}
+for(let i=0; i<settings.tele.length; i++){
+    keys.push(settings.tele[i].trigger);
+}
+let uniqueKeys = keys.filter((i, index) => {
+    return keys.indexOf(i) === index;
+});
+
 window.addEventListener('keydown', function (keystroke) {
-    if(keystroke.key == " "){
+
+    let keyBool = false;
+    if(keystroke.key == " " && state == "standby"){
         transition(1)
     }
+
+    uniqueKeys.forEach((keybind)=>{
+        if(keystroke.key == keybind){
+            keyBool = true;
+            
+        }
+    }
+    )
+    if(!keyBool){
+        return;
+    }
+
+    for(let i=0; i<uniqueKeys.length; i++){
+        
+        if(state == "auto"){
+            if(settings.auto[i].trigger == keystroke.key){
+                clickEvt(settings.auto[i].writeType, settings.auto[i].writeLoc);
+            }
+        }
+        if(state == "tele"){
+            if(settings.tele[i].trigger == keystroke.key){
+                clickEvt(settings.tele[i].writeType, settings.tele[i].writeLoc);
+            }
+        }
+    }
+    
+    
 }
 )
 
@@ -119,14 +159,12 @@ function timerStart(){
     console.log("started")
 }
 function updateTimer(){
-    console.log("updated")
     document.getElementById("display-timer").innerHTML = timer;
 
     if(settings.imported.transitionMode == "manual"){
         timer--;
     }
     if(settings.imported.transitionMode == "auto"){
-        console.log(timer)
         if (timer == 135 && delay) {
             timer = 136; //136??? check delay
             delay = !delay
@@ -154,6 +192,7 @@ function updateTimer(){
 }
 
 function clickEvt(type, loc, rev = null){
+    console.log(type + " " + loc);
     clickAudio.play();
     if(type == "int"){
         if(rev){
@@ -230,3 +269,6 @@ function transition(i){
 //manual vs auto phase switching
 //hour logging?
 //till next break>??
+//custom keybinds
+
+

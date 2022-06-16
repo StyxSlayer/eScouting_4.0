@@ -15,7 +15,7 @@ let settings = {
       },
       {
         "label": "Low Goal",
-        "trigger": "d", 
+        "trigger": "j", 
         "columnStart": 3,
         "columnEnd": 5,
         "rowStart": 1,
@@ -25,7 +25,7 @@ let settings = {
       }, 
       {
         "label": "Missed Goal",
-        "trigger": "j", 
+        "trigger": "d", 
         "columnStart": 1,
         "columnEnd": 3,
         "rowStart": 3,
@@ -62,7 +62,7 @@ let settings = {
       },
       {
         "label": "Low Goal",
-        "trigger": "d", 
+        "trigger": "j", 
         "columnStart": 3,
         "columnEnd": 5,
         "rowStart": 1,
@@ -72,7 +72,7 @@ let settings = {
       }, 
       {
         "label": "Missed Goal",
-        "trigger": "j", 
+        "trigger": "d", 
         "columnStart": 1,
         "columnEnd": 3,
         "rowStart": 3,
