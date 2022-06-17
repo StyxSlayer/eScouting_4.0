@@ -190,7 +190,7 @@ function updateTimer(){
 
     
 }
-
+let incArr = []
 function clickEvt(type, loc, rev = null){
     console.log(type + " " + loc);
     clickAudio.play();
@@ -205,9 +205,24 @@ function clickEvt(type, loc, rev = null){
     if(type == "bool"){
         dataValues[loc] = !dataValues[loc];
     }
+    if(type == "inc"){
+        if(incArr.includes(loc)){
+            incArr.splice(incArr.indexOf(loc), 1);
+        }
+        else{
+            incArr.push(loc);
+        }
+    }
     console.log(dataValues);
     document.getElementById("label" + loc).innerHTML = dataValues[loc];
 }
+
+setInterval( ()=>{
+    for(let i=0; i<incArr.length; i++){
+        dataValues[incArr[i]]++
+        document.getElementById("label" + incArr[i]).innerHTML = dataValues[incArr[i]];
+    }
+}, 1000)
 
 function transition(i){
     if(i==0 && state == "init"){
