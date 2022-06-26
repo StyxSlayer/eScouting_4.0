@@ -150,12 +150,25 @@ function generateMainPage(stage){
         }
         console.log("tele generated");
     }
+    if(stage == "after"){
+        for(i=0; i<settings.after.length; i++){
+            if(writeType == "cyc"){
+                const container = document.createElement("div")
+                container.classList.add("switchContainer")
+                container.innerHTML = "[" + settings.after[i].cycOptions + "] " + settings.after[i].label;
+                container.classList.add("cyc")
+                container.addEventListener("click", ()=>clickEvt("afterCyc", settings.after[i].writeLoc))
+                document.getElementById("mainPage").appendChild(container)
+            }
+            
+        }
+    }
 }
 function timerStart(){
     timer = 150;
     delay = true;
     updateTimer();
-    let timerFunction = setInterval(updateTimer, 100)
+    let timerFunction = setInterval(updateTimer, 1000)
     console.log("started")
 }
 function updateTimer(){
@@ -177,7 +190,7 @@ function updateTimer(){
             state = "end"
             transition(3)
           }
-          if (timer == 0) {
+          if(timer == 0) {
             console.log("Game over");
             timer -= 1;
             state = "after";
@@ -187,6 +200,12 @@ function updateTimer(){
             timer --;
           }
     }
+    if(timer == 0) {
+        console.log("Game over");
+        timer -= 1;
+        state = "after";
+        transition(4)
+    }
 
     
 }
@@ -195,6 +214,8 @@ function clickEvt(type, loc, rev = null){
     console.log(type + " " + loc);
     clickAudio.play();
     if(type == "int"){
+        document.getElementById("")
+
         if(rev){
             dataValues[loc]--;
         }
@@ -216,7 +237,6 @@ function clickEvt(type, loc, rev = null){
     console.log(dataValues);
     document.getElementById("label" + loc).innerHTML = dataValues[loc];
 }
-
 setInterval( ()=>{
     for(let i=0; i<incArr.length; i++){
         dataValues[incArr[i]]++
@@ -264,6 +284,15 @@ function transition(i){
         generateMainPage("tele")
         state = "tele"
     }
+    if(i == 4  && state == "after"){
+        let removeElem = (settings.tele.length)*3        
+        for(let i=0; i<removeElem; i++){
+            
+            mainPageElem = document.getElementById("mainPage");
+            mainPageElem.removeChild(mainPageElem.lastElementChild)
+        }
+        generateMainPage("after");
+    }
 }
 
 
@@ -285,5 +314,8 @@ function transition(i){
 //hour logging?
 //till next break>??
 //custom keybinds
+//custom colour themes
+//custom sounds but its already implemented :shrug:
+
 
 

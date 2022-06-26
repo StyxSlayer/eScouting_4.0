@@ -100,6 +100,51 @@ let settings = {
         "writeLoc": 9,
         "writeType": "inc"
       }
+    ], 
+
+
+
+
+
+    "after":[
+      {
+        "label":"Climb Level",
+        "writeLoc": 8,
+        "writeType": "cyc",
+        "cycOptions": ["N","L", "M", "H", "T"],
+        "writeCycOptions": 5
+      },
+      {
+        "label":"Penalty",
+        "writeLoc": 11,
+        "writeType": "bool",
+      }, 
+      {
+        "label":"Oof", 
+        "writeLoc": 13,
+        "writeType": "bool"
+      },
+      {
+        "label": "Drive Train",
+        "writeLoc": 15,
+        "writeType": "str"
+      },
+      {
+        "label": "Shooting Distance",
+        "writeLoc": 12,
+        "writeType": "str"
+      },
+      {
+        "label": "Shooter", 
+        "writeLoc": 16, 
+        "writeType": "str"
+      },
+      {
+        "label": "Other Qata",
+        "writeLoc": 14,
+        "writeType": "str"
+      }
+
     ]
     
   }

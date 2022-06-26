@@ -1,3 +1,15 @@
+:root{
+    --mainColor: #f2efed;
+    --bgColor: #1c1b1d;
+    --accentColor: #deaf9d;
+    --highlightColor: #4e3e3e;
+    --errColor: #bf616a;
+    --altBgColor:#262223;
+
+    --mainFont: 'Inter', sans-serif;
+    --secondFont: 'Roboto Mono', monospace;
+}
+
 .hideClass{
     display:none;
 }
@@ -82,5 +94,21 @@
         opacity: 0%;
     }
 
+}
 
+/* click animation | notify user of box click */
+
+.clickAnim{
+    animation: clickAnim;
+    animation-duration: 0.2s;
+    animation-direction: forwards;
+}
+
+@keyframes clickAnim{
+    0%{
+        background-color: var(--mainColor);
+    }
+    100%{
+        background-color: var(--highlightColor);
+    }
 }
