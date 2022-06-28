@@ -163,7 +163,7 @@ body{
     cursor: pointer;
 }
 
-#mainPage{
+.mainPage{
     margin-top: 1.5vw;
     margin-left: 1.5vw;
     margin-right: 1.5vw;
@@ -178,6 +178,8 @@ body{
     gap: 1.5vw;
     
 }
+
+
 
 .mainPageBox{
     border: solid var(--accentColor) 2px;
@@ -267,3 +269,53 @@ body{
     position: absolute;
     top: 100vh;
 }
+
+.afterPageContainer{
+    width: 100vw;
+    height: 100vh;
+    margin: 0px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.afterPageQata{
+    width: 35%;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+}
+
+.cycContainer{
+    height: 10vh;
+    margin: 3vw;
+    width: 100%;
+}
+
+.qataLabel{
+    font-family: "Roboto mono", monospace;
+    font-size: 1rem;
+    color: var(--mainColor);
+
+}
+
+.qataCycContainer{
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    height: 5vh;
+    
+    border-radius: 1rem;
+    background-color: var(--altBgColor);
+
+    display: flex;
+    justify-content: space-around;
+}
+
+.qataCyc{
+    font-family: "Roboto mono", monospace;
+    font-size: 1rem;
+    color: var(--mainColor);
+    width: 4vw;
+}
+

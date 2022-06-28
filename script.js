@@ -151,14 +151,37 @@ function generateMainPage(stage){
         console.log("tele generated");
     }
     if(stage == "after"){
-        for(i=0; i<settings.after.length; i++){
-            if(writeType == "cyc"){
-                const container = document.createElement("div")
-                container.classList.add("switchContainer")
-                container.innerHTML = "[" + settings.after[i].cycOptions + "] " + settings.after[i].label;
-                container.classList.add("cyc")
-                container.addEventListener("click", ()=>clickEvt("afterCyc", settings.after[i].writeLoc))
-                document.getElementById("mainPage").appendChild(container)
+        document.getElementById("displayBar").style.display = "none"
+        let mainPage = document.getElementById("mainPage");
+        mainPage.classList.remove("mainPage");
+        mainPage.classList.add("afterPageContainer");
+        let qataBox = document.createElement("div");
+        qataBox.classList.add("afterPageQata");
+        mainPage.appendChild(qataBox);
+
+
+        for(let i=0; i<settings.after.length; i++){
+            if(settings.after[i].writeType == "cyc"){
+                const container = document.createElement("div");
+                container.classList.add("cycContainer");
+                qataBox.appendChild(container);
+
+                const label = document.createElement("div");
+                label.classList.add("qataLabel");
+                label.innerHTML = settings.after[i].label;
+                container.appendChild(label);
+
+                const bar = document.createElement("div");
+                bar.classList.add("qataCycContainer");
+                container.appendChild(bar);
+
+                for(let b=0; b<settings.after[i].cycOptions.length; b++){
+                    const option = document.createElement("div");
+                    option.classList.add("qataCyc");
+                    option.innerHTML = settings.after[i].cycOptions[b]
+                    bar.appendChild(option);
+                }
+                
             }
             
         }
@@ -168,7 +191,7 @@ function timerStart(){
     timer = 150;
     delay = true;
     updateTimer();
-    let timerFunction = setInterval(updateTimer, 1000)
+    let timerFunction = setInterval(updateTimer, 20)
     console.log("started")
 }
 function updateTimer(){
