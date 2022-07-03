@@ -283,7 +283,7 @@ body{
     width: 35%;
     height: 100vh;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
 }
 
 .cycContainer{
@@ -294,18 +294,17 @@ body{
 
 .qataLabel{
     font-family: "Roboto mono", monospace;
-    font-size: 1rem;
+    font-size: 1.25rem;
     color: var(--mainColor);
-
+    margin-bottom: 0.5vh;
 }
 
 .qataCycContainer{
-    margin-left: auto;
     margin-right: auto;
-    width: 100%;
-    height: 5vh;
+    width: 70%;
+    height: 7vh;
     
-    border-radius: 1rem;
+    border-radius: 0.5rem;
     background-color: var(--altBgColor);
 
     display: flex;
@@ -314,8 +313,54 @@ body{
 
 .qataCyc{
     font-family: "Roboto mono", monospace;
-    font-size: 1rem;
+    font-size: 1.25rem;
     color: var(--mainColor);
     width: 4vw;
+    display:flex;
+    justify-content: center;
+    align-items: center;
 }
 
+.cycSelected{
+    border: var(--mainColor);
+    background-color: var(--accentColor);
+    color: var(--bgColor);
+
+    border-radius: 1rem;
+}
+
+.switchContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    width: 70%;
+    height: 7vh;
+
+    margin-left: 3vw;
+}
+
+.textContainer{
+    display: flex;
+    flex-direction: column;
+
+    width: 70%;
+    height: 13vh;
+
+    margin-left: 3vw;
+}
+.afterTextBox{
+    background-color: var(--altBgColor);
+    border: 2px solid var(--altBgColor);
+    height: 6vh;
+    border-radius: 0.5rem;
+    color:var(--mainColor);
+    font-size:1.25rem;
+    padding-left:10px;
+    transition: border 0.3s, background-color 0.5s;
+    font-family: 'Roboto Mono', monospace;
+  }
+  .afterTextBox:focus{
+    outline:none;
+    border: 2px solid var(--accentColor);
+  }

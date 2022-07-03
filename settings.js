@@ -101,11 +101,6 @@ let settings = {
         "writeType": "inc"
       }
     ], 
-
-
-
-
-
     "after":[
       {
         "label":"Climb Level",
@@ -127,27 +122,31 @@ let settings = {
       {
         "label": "Drive Train",
         "writeLoc": 15,
-        "writeType": "str"
+        "writeType": "str",
+        "placeholder": "e.g. tank, swerve"
       },
       {
         "label": "Shooting Distance",
         "writeLoc": 12,
-        "writeType": "str"
+        "writeType": "str",
+        "placeholder": "e.g. tarmac, bumper"
       },
       {
         "label": "Shooter", 
         "writeLoc": 16, 
-        "writeType": "str"
+        "writeType": "str",
+        "placeholder": "e.g. hood, turret, other"
       },
       {
         "label": "Other Qata",
         "writeLoc": 14,
-        "writeType": "str"
+        "writeType": "str",
+        "placeholder": "e.g. defence, penalties, speed"
       }
 
     ]
     
   }
 
-  let dataValues = [false, 0, 0, 0, 0, 0, 0, false, 0, 0, 0, false, "", false, "", ""];
+  let dataValues = [false, 0, 0, 0, 0, 0, 0, false, null, 0, 0, false, "", false, "", ""];
   let dataLabels = ["Taxi", "Auto High", "Auto Low", "Auto Missed", "Tele High", "Tele Low", "Tele Missed", "Attempted Climb", "Climb Level", "Climb Time", "Defence Time", "Penalty", "Yeet", "Oof", "QATA", "Drivetrain Type"];

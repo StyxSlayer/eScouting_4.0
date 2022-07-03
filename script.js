@@ -48,10 +48,18 @@ window.addEventListener('keydown', function (keystroke) {
             if(settings.auto[i].trigger == keystroke.key){
                 clickEvt(settings.auto[i].writeType, settings.auto[i].writeLoc);
             }
+            if(settings.auto[i].trigger.toUpperCase() == keystroke.key){
+                clickEvt(settings.auto[i].writeType, settings.auto[i].writeLoc, true);
+                console.log("reverse")
+            }
         }
         if(state == "tele"){
             if(settings.tele[i].trigger == keystroke.key){
                 clickEvt(settings.tele[i].writeType, settings.tele[i].writeLoc);
+            }
+            if(settings.tele[i].trigger.toUpperCase() == keystroke.key){
+                clickEvt(settings.tele[i].writeType, settings.tele[i].writeLoc, true);
+                console.log("reverse")
             }
         }
     }
@@ -178,10 +186,73 @@ function generateMainPage(stage){
                 for(let b=0; b<settings.after[i].cycOptions.length; b++){
                     const option = document.createElement("div");
                     option.classList.add("qataCyc");
+                    option.setAttribute("id", (settings.after[i].writeLoc + "cyc" + settings.after[i].cycOptions[b]))
                     option.innerHTML = settings.after[i].cycOptions[b]
+                    option.addEventListener("click", ()=> clickEvt("cyc", settings.after[i].writeLoc, settings.after[i].cycOptions[b]))
                     bar.appendChild(option);
                 }
                 
+            }
+            if(settings.after[i].writeType == "bool"){
+                const container = document.createElement("div");
+                container.classList.add("switchContainer");
+                qataBox.appendChild(container);
+
+                const labelText = document.createElement("div");
+                labelText.classList.add("qataLabel");
+                labelText.innerHTML = settings.after[i].label;
+                container.appendChild(labelText);
+
+                const labelElem = document.createElement("label");
+                labelElem.classList.add("switch")
+
+                
+                container.appendChild(labelElem)
+
+                const input = document.createElement("input");
+                input.type = "checkbox";
+                input.addEventListener("click", ()=>clickEvt("afterBool", settings.after[i].writeLoc))
+                input.setAttribute("id", ("switch" + settings.after[i].writeLoc))
+                labelElem.appendChild(input);
+
+                const span = document.createElement("span");
+                span.classList.add("slider");
+                span.classList.add("round");
+                labelElem.appendChild(span);
+            }
+            if(settings.after[i].writeType == "str"){
+                
+                const container = document.createElement("div");
+                container.classList.add("textContainer");
+                if(settings.after[i].label == "Other Qata"){
+                    container.style.height = "20vh"
+                }
+                qataBox.appendChild(container);
+
+                const labelText = document.createElement("div");
+                labelText.classList.add("qataLabel");
+                labelText.innerHTML = settings.after[i].label;
+                container.appendChild(labelText);
+
+
+                if(settings.after[i].label == "Other Qata"){
+                    const textbox = document.createElement("textarea");
+                    textbox.classList.add("afterTextBox");
+                    textbox.setAttribute("id", ("str" + settings.after[i].writeLoc));
+                    textbox.setAttribute("placeholder", settings.after[i].placeholder)
+                    textbox.style.height = "14vh";
+                    textbox.style.paddingTop = "7px";
+                    textbox.style.resize = "none";
+                    container.appendChild(textbox)
+                }
+                else{
+                    const textbox = document.createElement("input");
+                    textbox.type = "text";
+                    textbox.classList.add("afterTextBox");
+                    textbox.setAttribute("id", ("str" + settings.after[i].writeLoc));
+                    textbox.setAttribute("placeholder", settings.after[i].placeholder)
+                    container.appendChild(textbox)
+                }
             }
             
         }
@@ -236,29 +307,50 @@ let incArr = []
 function clickEvt(type, loc, rev = null){
     console.log(type + " " + loc);
     clickAudio.play();
+    //during game
     if(type == "int"){
-        document.getElementById("")
-
         if(rev){
             dataValues[loc]--;
         }
         if(!rev){
             dataValues[loc]++;
         }
+        document.getElementById("label" + loc).innerHTML = dataValues[loc];
     }
     if(type == "bool"){
         dataValues[loc] = !dataValues[loc];
+        document.getElementById("label" + loc).innerHTML = dataValues[loc];
     }
     if(type == "inc"){
+        if(rev){
+            return;
+        }
         if(incArr.includes(loc)){
             incArr.splice(incArr.indexOf(loc), 1);
         }
         else{
             incArr.push(loc);
         }
+        document.getElementById("label" + loc).innerHTML = dataValues[loc];
+    }
+    //after game
+    if(type == "cyc"){
+        if(dataValues[loc]){
+            dataValues[loc] = rev;
+            for(let i = 0; i < settings.after[0].cycOptions.length; i++){
+                document.getElementById((loc + "cyc" + settings.after[0].cycOptions[i])).style.border = "0px";
+            }
+            document.getElementById((loc + "cyc" + rev)).style.border = "1px white solid";
+        }
+        if(!dataValues[loc]){
+            dataValues[loc] = rev;
+            document.getElementById((loc + "cyc" + rev)).style.border = "1px white solid";
+        }
+    }
+    if(type == "afterBool"){
+        dataValues[loc] = !dataValues[loc];
     }
     console.log(dataValues);
-    document.getElementById("label" + loc).innerHTML = dataValues[loc];
 }
 setInterval( ()=>{
     for(let i=0; i<incArr.length; i++){
