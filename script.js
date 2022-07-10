@@ -26,6 +26,12 @@ let uniqueKeys = keys.filter((i, index) => {
 
 window.addEventListener('keydown', function (keystroke) {
 
+
+    if(state == "after"){
+        updateQr()
+    }
+
+
     let keyBool = false;
     if(keystroke.key == " " && state == "standby"){
         transition(1)
@@ -350,6 +356,27 @@ function generateMainPage(stage){
         btn2.innerHTML = "+"
         editor.appendChild(btn2);
         document.getElementById("editPlusBtn").addEventListener("click", ()=> clickEvt("editBtn", null, "plus")); 
+
+
+
+        let qrBox = document.createElement("div");
+        qrBox.classList.add("afterPageQr");
+        mainPage.appendChild(qrBox);
+
+        let qrContainer = document.createElement("div");
+        qrContainer.classList.add("qrContainer");
+        qrContainer.setAttribute('id', "qrContainer");
+        qrBox.appendChild(qrContainer);
+
+        let qrText = document.createElement("div");
+        qrText.setAttribute("id", "qrText");
+        qrBox.appendChild(qrText);
+
+        updateQr()
+
+        
+        
+
     }
 }
 function timerStart(){
@@ -397,6 +424,43 @@ function updateTimer(){
 
     
 }
+
+function updateQr(){
+
+
+    for(let i=0; i<dataValues.length; i++){
+
+
+
+        if(typeof dataValues[i] == "boolean"){
+            if(dataValues[i]){
+                dataValues[i] = 1;
+            }
+            else if(!dataValues[i]){
+                dataValues[i] = 0;
+            }
+        }
+        if(typeof dataValues[i] == "string"){
+
+            let textValue = document.getElementById(("str" + i)).value;
+            textValue = textValue.replaceAll(",", ";");
+            dataValues[i] = textValue
+
+        }
+        
+    }    console.log(dataValues)
+
+    var typeNumber = 0;
+    var errorCorrectionLevel = 'L';
+    var qr = qrcode(typeNumber, errorCorrectionLevel);
+    qr.addData(JSON.stringify(dataValues));
+    qr.make();
+    document.getElementById('qrContainer').innerHTML = qr.createImgTag();
+
+    document.getElementById("qrText").innerHTML = dataValues;
+}
+
+
 let incArr = []
 let selected = -1;
 function clickEvt(type, loc, rev = null){
@@ -429,6 +493,7 @@ function clickEvt(type, loc, rev = null){
         document.getElementById("label" + loc).innerHTML = dataValues[loc];
     }
     //after game
+    
     if(type == "cyc"){
         if(dataValues[loc]){
             dataValues[loc] = rev;
@@ -486,6 +551,9 @@ function clickEvt(type, loc, rev = null){
         document.getElementById(("qataPageCellNumber" + selected)).innerHTML = dataValues[rowContent[selected].writeLoc]
         document.getElementById("editTextBox").value = dataValues[rowContent[selected].writeLoc]
         
+    }
+    if(state == "after"){
+        updateQr();
     }
 
     console.log(dataValues);

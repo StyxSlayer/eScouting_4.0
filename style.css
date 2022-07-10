@@ -469,3 +469,11 @@ body{
     outline:none;
     border: 2px solid var(--accentColor);
   }
+
+  .afterPageQr{
+    display:flex;
+    flex-direction: column;
+
+    height: 100vh;
+    width: 30%;
+  }
