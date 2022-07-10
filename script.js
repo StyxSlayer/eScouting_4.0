@@ -1,4 +1,4 @@
-let state = "init", matchNum, scoutNum, teamNum, timer = 150, delay = true;
+let state = "init", matchNum, scoutNum, teamNum, timer = 150, delay = true, rowContent = [];
 let startAudio = new Audio("/sfx/start.wav")
 let clickAudio = new Audio("/sfx/click.wav")
 var img = new Image();
@@ -30,7 +30,6 @@ window.addEventListener('keydown', function (keystroke) {
     if(keystroke.key == " " && state == "standby"){
         transition(1)
     }
-
     uniqueKeys.forEach((keybind)=>{
         if(keystroke.key == keybind){
             keyBool = true;
@@ -161,6 +160,7 @@ function generateMainPage(stage){
     if(stage == "after"){
         document.getElementById("displayBar").style.display = "none"
         let mainPage = document.getElementById("mainPage");
+        mainPage.style.display = "flex"
         mainPage.classList.remove("mainPage");
         mainPage.classList.add("afterPageContainer");
         let qataBox = document.createElement("div");
@@ -256,6 +256,100 @@ function generateMainPage(stage){
             }
             
         }
+
+
+        let editBox = document.createElement("div");
+        editBox.classList.add("afterPageEdit");
+        mainPage.appendChild(editBox);
+
+        let mainTable = document.createElement("table");
+        mainTable.setAttribute("id", "mainTable")
+        let tableBody = document.createElement("tbody");
+
+        
+        
+        for(i=0; i<settings.auto.length; i++){
+            rowContent.push(settings.auto[i])
+        }
+        for(i=0; i<settings.tele.length; i++){
+            rowContent.push(settings.tele[i])
+        }
+        rowContent.push(tempFix[0])
+
+        console.log(rowContent.length)
+        
+
+        for(let i=0; i<rowContent.length; i++){
+            var row = document.createElement("tr");
+            row.addEventListener("click", ()=> clickEvt("edit", i))
+            row.setAttribute('id', ("tr" + i))
+            row.setAttribute('class', "editTableRow")
+            
+            for(let b=0; b<2; b++){
+                let content;
+                if(b%2 == 0){
+                    content = rowContent[i].label
+                }
+                if(b%2 == 1){
+                    content = dataValues[rowContent[i].writeLoc]
+                }
+                var cell = document.createElement("td");
+                var cellText = document.createTextNode(content);
+                cell.appendChild(cellText);
+                if (b%2 == 0) {
+                    cell.setAttribute('id', 'qataPageCellID' + i + '')
+                    cell.setAttribute('class', 'qataPageCellID')
+                }
+                if (b%2 == 1) {
+                    cell.setAttribute('id', 'qataPageCellNumber' + i + '')
+                    cell.setAttribute('class', 'qataPageCellNumber')
+                }
+                row.appendChild(cell);
+            }
+            tableBody.appendChild(row);
+
+
+
+
+
+        }
+        mainTable.appendChild(tableBody)
+        editBox.appendChild(mainTable)
+
+        let header = mainTable.createTHead();
+        let hRow = header.insertRow(0);
+        let hCell = hRow.insertCell(0);
+        hCell.innerText = "item";
+        hCell.classList.add("qataPageCellID")
+        let hCell2 = hRow.insertCell(1);
+        hCell2.innerText = "value"; 
+        hCell2.classList.add("qataPageCellNumber")
+
+        //buttons that user selects while editing
+        let editor = document.createElement("div");
+        editor.classList.add("afterEditor")
+        editBox.appendChild(editor);
+
+        let btn = document.createElement("button");
+        btn.setAttribute("id", "editMinusBtn");
+        btn.setAttribute("class", "editBtn");
+        btn.innerHTML = "-"
+        editor.appendChild(btn);
+        document.getElementById("editMinusBtn").addEventListener("click", ()=> clickEvt("editBtn", null, "minus"));
+
+        const textbox = document.createElement("input");
+        textbox.type = "text";
+        textbox.setAttribute("id", "editTextBox");
+        textbox.disabled = true;
+        textbox.addEventListener("change", ()=> clickEvt("editBtn", null, "value"))
+        editor.appendChild(textbox)
+
+        let btn2 = document.createElement("button");
+        btn2.setAttribute("id", "editPlusBtn");
+        btn2.setAttribute("class", "editBtn");
+        btn2.innerHTML = "+"
+        editor.appendChild(btn2);
+        document.getElementById("editPlusBtn").addEventListener("click", ()=> clickEvt("editBtn", null, "plus")); 
     }
 }
 function timerStart(){
@@ -304,9 +398,10 @@ function updateTimer(){
     
 }
 let incArr = []
+let selected = -1;
 function clickEvt(type, loc, rev = null){
     console.log(type + " " + loc);
-    clickAudio.play();
+    // clickAudio.play();
     //during game
     if(type == "int"){
         if(rev){
@@ -338,18 +433,61 @@ function clickEvt(type, loc, rev = null){
         if(dataValues[loc]){
             dataValues[loc] = rev;
             for(let i = 0; i < settings.after[0].cycOptions.length; i++){
-                document.getElementById((loc + "cyc" + settings.after[0].cycOptions[i])).style.border = "0px";
+                document.getElementById((loc + "cyc" + settings.after[0].cycOptions[i])).style.border = "2px solid var(--highlightColor)";
             }
-            document.getElementById((loc + "cyc" + rev)).style.border = "1px white solid";
+            document.getElementById((loc + "cyc" + rev)).style.border = "2px solid var(--accentColor)";
         }
         if(!dataValues[loc]){
             dataValues[loc] = rev;
-            document.getElementById((loc + "cyc" + rev)).style.border = "1px white solid";
+            document.getElementById((loc + "cyc" + rev)).style.border = "2px solid var(--accentColor)";
         }
     }
     if(type == "afterBool"){
         dataValues[loc] = !dataValues[loc];
     }
+    if(type == "edit"){
+
+        for(let j=0; j<rowContent.length; j++){
+            document.getElementById(("tr" + j)).classList.remove("editSelect")
+        }
+        document.getElementById(("tr" + loc)).classList.add("editSelect")
+        selected = loc;
+        if(rowContent[selected].writeType == "bool"){
+            document.getElementById("editTextBox").disabled = true;
+        }
+        if(rowContent[selected].writeType != "bool"){
+            document.getElementById("editTextBox").disabled = false;
+        }
+        document.getElementById("editTextBox").value = dataValues[rowContent[selected].writeLoc]
+    }
+    if(type == "editBtn"){
+        if(selected == -1){
+            alert("nothing selected")
+            return;
+        }
+
+        if(rev == "value"){
+            dataValues[rowContent[selected].writeLoc] = document.getElementById("editTextBox").value
+            document.getElementById(("qataPageCellNumber" + selected)).innerHTML = dataValues[rowContent[selected].writeLoc]
+            return;
+        }
+        if(rowContent[selected].writeType == "bool"){
+            dataValues[rowContent[selected].writeLoc] = !dataValues[rowContent[selected].writeLoc]
+        }
+        if((rowContent[selected].writeType == "int") || (rowContent[selected].writeType == "inc")){
+            if(rev == "plus"){
+                dataValues[rowContent[selected].writeLoc]++;
+            }
+            if(rev == "minus"){
+                dataValues[rowContent[selected].writeLoc]--;
+            }
+        }
+
+        document.getElementById(("qataPageCellNumber" + selected)).innerHTML = dataValues[rowContent[selected].writeLoc]
+        document.getElementById("editTextBox").value = dataValues[rowContent[selected].writeLoc]
+        
+    }
+
     console.log(dataValues);
 }
 setInterval( ()=>{
