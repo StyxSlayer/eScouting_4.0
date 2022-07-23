@@ -280,7 +280,7 @@ body{
 }
 
 .afterPageQata{
-    width: 35%;
+    width: 40%;
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -359,6 +359,7 @@ body{
 
     margin-left: 3vw;
 }
+
 .afterTextBox{
     background-color: var(--highlightColor);
     border: 2px solid var(--highlightColor);
@@ -367,16 +368,19 @@ body{
     color:var(--mainColor);
     font-size:1.25rem;
     padding-left:10px;
-    transition: border 0.3s, background-color 0.5s;
+    transition: border 0.3s, background-color 0.5s, all 0.5s;
     font-family: 'Roboto Mono', monospace;
   }
   .afterTextBox:focus{
     outline:none;
     border: 2px solid var(--accentColor);
   }
+  .afterTextBox:hover{
+    transform: translateY(-0.15vh) translateX(-0.15vh);
+  }
 
 .afterPageEdit{
-    width: 35%;
+    width: 30%;
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -386,8 +390,7 @@ body{
     border-collapse: collapse;
     font-size: 1.25rem;
     font-family: "Roboto Mono", monospace;
-
-    margin-right: 20%;
+    
     width: 70%;
     margin-top: calc(3vw + 1.5rem + 0.5vh);
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
@@ -453,6 +456,7 @@ body{
 
 .editBtn:hover{
     border: 2px solid var(--accentColor);
+    cursor: pointer;
 }
 
 #editTextBox{
@@ -474,6 +478,46 @@ body{
     display:flex;
     flex-direction: column;
 
-    height: 100vh;
-    width: 30%;
+    height: 50vh;
+    width: 20%;
+
+    margin-top: auto;
+    margin-bottom: auto;
+    
+  }
+
+  #qrContainer{
+    width: 100px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 5vh;
+  }
+
+  #qrText{
+    font-size: 1rem;
+    color: var(--mainColor);
+    font-family: "Roboto Mono", monospace;
+
+    display:flex;
+    justify-content: center;
+
+    border: 2px solid var(--bgColor);
+    border-radius: 0.5rem;
+    background-color: var(--altBgColor);
+
+    padding: 2vh;
+    height: 10vh;
+
+    transition: 0.5s all;
+  }
+
+  #qrText:hover{
+    cursor: pointer;
+    transform: translateY(-0.15vh) translateX(-0.15vh);
+  }
+
+  .qrTextfocus{
+    border: var(--accentColor);
+    background-color: var(--highlightColor);
+
   }

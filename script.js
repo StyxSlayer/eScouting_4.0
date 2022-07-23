@@ -23,12 +23,12 @@ for(let i=0; i<settings.tele.length; i++){
 let uniqueKeys = keys.filter((i, index) => {
     return keys.indexOf(i) === index;
 });
-
+let qrRefresh = setInterval(()=>{ if(state == "after") updateQr() }, 1000);
 window.addEventListener('keydown', function (keystroke) {
 
 
     if(state == "after"){
-        updateQr()
+       updateQr();
     }
 
 
@@ -370,7 +370,17 @@ function generateMainPage(stage){
 
         let qrText = document.createElement("div");
         qrText.setAttribute("id", "qrText");
+        qrText.addEventListener("click", ()=>{
+            navigator.clipboard.writeText(document.getElementById("qrText").innerHTML);
+            alert("String copied to clipboard")
+        })
         qrBox.appendChild(qrText);
+
+        let qrBtn = document.createElement("button");
+        qrBtn.setAttribute("id", "qrBtn");
+        qrBtn.innerHTML = "continue";
+        qrBtn.addEventListener("click", ()=>clickEvt("transition", null, null))
+        qrBox.appendChild(qrBtn);
 
         updateQr()
 
@@ -379,11 +389,13 @@ function generateMainPage(stage){
 
     }
 }
-function timerStart(){
+function timerStart(i){
     timer = 150;
     delay = true;
     updateTimer();
-    let timerFunction = setInterval(updateTimer, 20)
+
+    window.timerFunction = setInterval(updateTimer, 20)
+    
     console.log("started")
 }
 function updateTimer(){
@@ -430,9 +442,9 @@ function updateQr(){
 
     for(let i=0; i<dataValues.length; i++){
 
-
-
-        if(typeof dataValues[i] == "boolean"){
+        if(i == 8){ //scrappy code, should change later   
+        }
+        else if(typeof dataValues[i] == "boolean"){
             if(dataValues[i]){
                 dataValues[i] = 1;
             }
@@ -440,7 +452,7 @@ function updateQr(){
                 dataValues[i] = 0;
             }
         }
-        if(typeof dataValues[i] == "string"){
+        else if(typeof dataValues[i] == "string"){
 
             let textValue = document.getElementById(("str" + i)).value;
             textValue = textValue.replaceAll(",", ";");
@@ -556,6 +568,12 @@ function clickEvt(type, loc, rev = null){
         updateQr();
     }
 
+    if(type == "transition"){
+        if(confirm("Resetting game... Are you sure you have been scanned and given OK?")){
+            resetGame()
+        }
+    }
+
     console.log(dataValues);
 }
 setInterval( ()=>{
@@ -613,9 +631,47 @@ function transition(i){
             mainPageElem.removeChild(mainPageElem.lastElementChild)
         }
         generateMainPage("after");
+        
     }
 }
 
+function resetGame(){
+    state="init";
+    timer = 150;
+    delay = true;
+    rowContent = [];
+    incArr = [];
+    selected = -1;
+    clearInterval(timerFunction);
+    teamNum = null;
+
+    dataValues = [false, 0, 0, 0, 0, 0, 0, false, null, 0, 0, false, "", false, "", "", ""]
+
+    //clearing main page and generating the displaybar
+    document.getElementById("mainPage").innerHTML = '';
+    let displayBar = document.createElement("div");
+    displayBar.setAttribute("id", "displayBar");
+    mainPage.appendChild(displayBar);
+
+    let displayMatch = document.createElement("div");
+    displayMatch.setAttribute("id", "display-match");
+    displayBar.appendChild(displayMatch);
+    let displayTimer = document.createElement("div");
+    displayTimer.setAttribute("id", "display-timer");
+    displayBar.appendChild(displayTimer);
+    let displayTeam = document.createElement("div");
+    displayTeam.setAttribute("id", "display-team");
+    displayBar.appendChild(displayTeam);
+
+    document.getElementById("mainPage").style.display = "none";
+
+
+    document.getElementById("initPage").style.display = "flex";
+    document.getElementById("standbyContainer").style.display = "none";
+    document.getElementById("initDivLine").classList.remove("transitionEvent1")
+    document.getElementById("initFormContainer").classList.remove("hideClass")
+    document.getElementById("initFormContainer").classList.remove("transitionEvent0")
+}
 
 
 
