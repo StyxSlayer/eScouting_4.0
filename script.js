@@ -394,7 +394,7 @@ function timerStart(i){
     delay = true;
     updateTimer();
 
-    window.timerFunction = setInterval(updateTimer, 20)
+    window.timerFunction = setInterval(updateTimer, 1000)
     
     console.log("started")
 }
