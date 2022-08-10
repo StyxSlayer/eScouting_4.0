@@ -521,3 +521,30 @@ body{
     background-color: var(--highlightColor);
 
   }
+
+  #qrBtn{
+        
+    width: 100%;
+    height: 5vh;
+
+        border-radius: 0.5rem;
+        border: 2px var(--altBgColor) solid;
+        background-color: var(--altBgColor);
+        color: var(--mainColor);
+    
+        margin: auto;
+        margin-top: 3vh;
+    
+        font-size: 18px;
+        font-family: "Roboto Mono", monospace;
+        font-weight: 500;
+    
+        transition: all 0.2s;
+    }
+    
+    #qrBtn:hover{
+        border: 2px var(--accentColor) solid;
+        background-color: var(--accentColor);
+        cursor: pointer;
+    }
+  

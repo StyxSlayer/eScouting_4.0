@@ -26,25 +26,15 @@ let uniqueKeys = keys.filter((i, index) => {
 let qrRefresh = setInterval(()=>{ if(state == "after") updateQr() }, 1000);
 window.addEventListener('keydown', function (keystroke) {
 
+    console.log(keystroke.key)
 
     if(state == "after"){
        updateQr();
     }
 
 
-    let keyBool = false;
     if(keystroke.key == " " && state == "standby"){
         transition(1)
-    }
-    uniqueKeys.forEach((keybind)=>{
-        if(keystroke.key == keybind){
-            keyBool = true;
-            
-        }
-    }
-    )
-    if(!keyBool){
-        return;
     }
 
     for(let i=0; i<uniqueKeys.length; i++){
@@ -576,7 +566,12 @@ function clickEvt(type, loc, rev = null){
 
     console.log(dataValues);
 }
+
+//def and climb timers
 setInterval( ()=>{
+    if((state == "after") || (state=="init")){
+        return;
+    }
     for(let i=0; i<incArr.length; i++){
         dataValues[incArr[i]]++
         document.getElementById("label" + incArr[i]).innerHTML = dataValues[incArr[i]];
