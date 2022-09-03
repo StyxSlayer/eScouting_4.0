@@ -547,4 +547,29 @@ body{
         background-color: var(--accentColor);
         cursor: pointer;
     }
-  
+
+    #notesPage{
+        width: 100vw;
+        height: 100vh;
+
+        display:flex;
+
+        transform:translateY(0vh);
+
+        backdrop-filter: blur(4px);
+        background-color:rgba(0, 0, 0, 0.5);
+        z-index: 100;
+
+    }
+    #notes{
+        width: 50vw;
+        height: 50vh;
+        border-radius: 0.5rem;
+
+        margin: auto;
+        color: var(--mainColor);
+        background-color: var(--altBgColor);
+        font-family: "Roboto Mono", monospace;
+        font-size: 1rem;
+        padding: 1vh;
+    }

@@ -1,4 +1,4 @@
-let state = "init", matchNum, scoutNum, teamNum, timer = 150, delay = true, rowContent = [];
+let state = "init", matchNum, scoutNum, teamNum, timer = 150, delay = true, rowContent = [], notesToggled = false;
 let startAudio = new Audio("/sfx/start.wav")
 let clickAudio = new Audio("/sfx/click.wav")
 var img = new Image();
@@ -25,12 +25,44 @@ let uniqueKeys = keys.filter((i, index) => {
 });
 let qrRefresh = setInterval(()=>{ if(state == "after") updateQr() }, 1000);
 window.addEventListener('keydown', function (keystroke) {
+    
+
+    if(keystroke.key == "Alt"){
+        if(state == "init"){
+            return;
+        }
+        console.log("toggled")
+        document.getElementById("notes").classList.remove("notesAnim")
+        document.getElementById("notes").classList.remove("notesAnimR")
+        document.getElementById("notesPage").classList.remove("notesPageAnim")
+        document.getElementById("notesPage").classList.remove("notesPageAnimR")
+
+        if(!notesToggled){
+            
+            document.getElementById('notesPage').classList.add("notesPageAnim")
+            document.getElementById('notes').classList.add("notesAnim")
+            notesToggled = true;
+            document.getElementById("notes").innerHTML = dataValues[14];
+
+        }
+        else{
+            document.getElementById('notesPage').classList.add("notesPageAnimR")
+            document.getElementById('notes').classList.add("notesAnimR")
+            dataValues[14] = document.getElementById("notes").values
+            notesToggled = false;
+        }
+
+    }
+    if(notesToggled){
+        return;
+    }
 
     console.log(keystroke.key)
 
     if(state == "after"){
        updateQr();
     }
+
 
 
     if(keystroke.key == " " && state == "standby"){
@@ -384,7 +416,7 @@ function timerStart(i){
     delay = true;
     updateTimer();
 
-    window.timerFunction = setInterval(updateTimer, 1000)
+    window.timerFunction = setInterval(updateTimer, 10)
     
     console.log("started")
 }
@@ -460,111 +492,6 @@ function updateQr(){
     document.getElementById('qrContainer').innerHTML = qr.createImgTag();
 
     document.getElementById("qrText").innerHTML = dataValues;
-}
-
-
-let incArr = []
-let selected = -1;
-function clickEvt(type, loc, rev = null){
-    console.log(type + " " + loc);
-    // clickAudio.play();
-    //during game
-    if(type == "int"){
-        if(rev){
-            dataValues[loc]--;
-        }
-        if(!rev){
-            dataValues[loc]++;
-        }
-        document.getElementById("label" + loc).innerHTML = dataValues[loc];
-    }
-    if(type == "bool"){
-        dataValues[loc] = !dataValues[loc];
-        document.getElementById("label" + loc).innerHTML = dataValues[loc];
-    }
-    if(type == "inc"){
-        if(rev){
-            return;
-        }
-        if(incArr.includes(loc)){
-            incArr.splice(incArr.indexOf(loc), 1);
-        }
-        else{
-            incArr.push(loc);
-        }
-        document.getElementById("label" + loc).innerHTML = dataValues[loc];
-    }
-    //after game
-    
-    if(type == "cyc"){
-        if(dataValues[loc]){
-            dataValues[loc] = rev;
-            for(let i = 0; i < settings.after[0].cycOptions.length; i++){
-                document.getElementById((loc + "cyc" + settings.after[0].cycOptions[i])).style.border = "2px solid var(--highlightColor)";
-            }
-            document.getElementById((loc + "cyc" + rev)).style.border = "2px solid var(--accentColor)";
-        }
-        if(!dataValues[loc]){
-            dataValues[loc] = rev;
-            document.getElementById((loc + "cyc" + rev)).style.border = "2px solid var(--accentColor)";
-        }
-    }
-    if(type == "afterBool"){
-        dataValues[loc] = !dataValues[loc];
-    }
-    if(type == "edit"){
-
-        for(let j=0; j<rowContent.length; j++){
-            document.getElementById(("tr" + j)).classList.remove("editSelect")
-        }
-        document.getElementById(("tr" + loc)).classList.add("editSelect")
-        selected = loc;
-        if(rowContent[selected].writeType == "bool"){
-            document.getElementById("editTextBox").disabled = true;
-        }
-        if(rowContent[selected].writeType != "bool"){
-            document.getElementById("editTextBox").disabled = false;
-        }
-        document.getElementById("editTextBox").value = dataValues[rowContent[selected].writeLoc]
-    }
-    if(type == "editBtn"){
-        if(selected == -1){
-            alert("nothing selected")
-            return;
-        }
-
-        if(rev == "value"){
-            dataValues[rowContent[selected].writeLoc] = document.getElementById("editTextBox").value
-            document.getElementById(("qataPageCellNumber" + selected)).innerHTML = dataValues[rowContent[selected].writeLoc]
-            return;
-        }
-        if(rowContent[selected].writeType == "bool"){
-            dataValues[rowContent[selected].writeLoc] = !dataValues[rowContent[selected].writeLoc]
-        }
-        if((rowContent[selected].writeType == "int") || (rowContent[selected].writeType == "inc")){
-            if(rev == "plus"){
-                dataValues[rowContent[selected].writeLoc]++;
-            }
-            if(rev == "minus"){
-                dataValues[rowContent[selected].writeLoc]--;
-            }
-        }
-
-        document.getElementById(("qataPageCellNumber" + selected)).innerHTML = dataValues[rowContent[selected].writeLoc]
-        document.getElementById("editTextBox").value = dataValues[rowContent[selected].writeLoc]
-        
-    }
-    if(state == "after"){
-        updateQr();
-    }
-
-    if(type == "transition"){
-        if(confirm("Resetting game... Are you sure you have been scanned and given OK?")){
-            resetGame()
-        }
-    }
-
-    console.log(dataValues);
 }
 
 //def and climb timers
@@ -666,6 +593,9 @@ function resetGame(){
     document.getElementById("initDivLine").classList.remove("transitionEvent1")
     document.getElementById("initFormContainer").classList.remove("hideClass")
     document.getElementById("initFormContainer").classList.remove("transitionEvent0")
+
+    document.getElementById("mainPage").classList.remove("afterPageContainer");
+    document.getElementById("mainPage").classList.add("mainPage");
 }
 
 
